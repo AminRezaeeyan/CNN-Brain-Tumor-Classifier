@@ -1,8 +1,24 @@
-# 🧠 Brain Tumor Classifier
+# 🧠 Brain Tumor Classifier (98.17% accuracy)
 
 &#x20; &#x20;
 
 A powerful Convolutional Neural Network (CNN) model designed to classify brain tumors into four categories: **glioma, meningioma, notumor, and pituitary**. This model achieves **state-of-the-art performance** with an impressive **98.17% accuracy** on the test set. Built with **TensorFlow/Keras**, it leverages **VGG-inspired architecture, real-time data augmentation, and advanced training strategies** to ensure robustness and reliability.
+
+1. **Glioma**  
+   Gliomas are tumors originating from glial cells, the supportive cells around neurons in the brain. They range from low-grade (slow-growing) to high-grade (malignant, e.g., glioblastoma) and are the most common primary brain tumors. On MRI, they often appear irregular with varying contrast, influenced by grade and surrounding edema. Accurate detection is vital due to differing treatment needs.
+
+2. **Meningioma**  
+   Meningiomas arise from the meninges, the protective layers covering the brain and spinal cord. Typically benign and slow-growing, some can become malignant or symptomatic due to pressure on brain structures. In MRI scans, they appear as well-defined, round masses with uniform contrast enhancement, aiding their identification for surgical or monitoring decisions.
+
+3. **Pituitary**  
+   Pituitary tumors develop in the pituitary gland, which regulates hormones. Usually benign (e.g., pituitary adenomas), they can disrupt hormonal balance or affect vision by pressing on optic nerves. On MRI, they are located near the sella turcica and show distinct enhancement, making classification key for managing endocrine symptoms.
+
+4. **No-tumor**  
+   This category includes MRI scans with no tumor or abnormal growth, serving as the control group. These images depict normal brain anatomy or minor non-tumor conditions (e.g., cysts). They lack the irregular masses or distortions seen in tumor cases, ensuring the CNN can differentiate healthy from pathological scans effectively.
+
+
+## Why It Matters
+In the realm of medical diagnostics, accuracy and reliability can mean the difference between life and death. The CNN Brain Tumor Classifier rises to this challenge, offering a dependable, automated solution that supports radiologists and clinicians. Extensive experimentation with alternative architectures confirmed this design as the optimal choice, refined through data augmentation and strategic training to meet the stringent demands of brain tumor classification.
 
 ---
 
