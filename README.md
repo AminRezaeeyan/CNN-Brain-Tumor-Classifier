@@ -1,8 +1,8 @@
-# 🧠 Brain Tumor Classifier (98.17% accuracy)
+# 🧠 NeuroScan - Brain Tumor Classifier (98.32% accuracy)
 
 &#x20; &#x20;
 
-A powerful Convolutional Neural Network (CNN) model designed to classify brain tumors into four categories: **glioma, meningioma, notumor, and pituitary**. This model achieves **state-of-the-art performance** with an impressive **98.17% accuracy** on the test set. Built with **TensorFlow/Keras**, it leverages **VGG-inspired architecture, real-time data augmentation, and advanced training strategies** to ensure robustness and reliability.
+A powerful Convolutional Neural Network (CNN) model designed to classify brain tumors into four categories: **glioma, meningioma, notumor, and pituitary**. This model achieves **state-of-the-art performance** with an impressive **98.32% accuracy** on the test set. Built with **TensorFlow/Keras**, it leverages **VGG-inspired architecture, real-time data augmentation, and advanced training strategies** to ensure robustness and reliability.
 
 1. **Glioma**  
    Gliomas are tumors originating from glial cells, the supportive cells around neurons in the brain. They range from low-grade (slow-growing) to high-grade (malignant, e.g., glioblastoma) and are the most common primary brain tumors. On MRI, they often appear irregular with varying contrast, influenced by grade and surrounding edema. Accurate detection is vital due to differing treatment needs.
@@ -35,7 +35,7 @@ In the realm of medical diagnostics, accuracy and reliability can mean the diffe
 
 ## 🚀 Key Features
 
-- **High Accuracy:** 98.17% test accuracy with strong generalization.
+- **High Accuracy:** 98.32% test accuracy with strong generalization.
 - **Robust Metrics:** High precision, recall, and F2-score, ensuring reliability for medical applications.
 - **Optimized CNN Architecture:** Inspired by VGG, utilizing small 3x3 kernels for efficiency.
 - **Advanced Training Strategies:** Early stopping, model checkpointing, and dynamic learning rate scheduling.
@@ -70,20 +70,20 @@ Iterative testing of alternative architectures—including batch normalization, 
 
 | Metric        | Score  |
 | ------------- | ------ |
-| **Accuracy**  | 98.17% |
-| **Precision** | 98.17% |
-| **Recall**    | 98.17% |
-| **F1 Score**  | 98.17% |
-| **F2 Score**  | 98.17% |
+| **Accuracy**  | 98.32% |
+| **Precision** | 98.32% |
+| **Recall**    | 98.32% |
+| **F1 Score**  | 98.32% |
+| **F2 Score**  | 98.32% |
 
 ### Class-wise Performance
 
 | Class          | Precision | Recall | F1 Score |
 | -------------- | --------- | ------ | -------- |
-| **Glioma**     | 98.98%    | 97.33% | 98.15%   |
-| **Meningioma** | 96.72%    | 96.41% | 96.56%   |
-| **Notumor**    | 98.29%    | 99.51% | 98.90%   |
-| **Pituitary**  | 98.67%    | 99.00% | 98.84%   |
+| **Glioma**     | 98.99%    | 98.33% | 98.66%   |
+| **Meningioma** | 97.67%    | 96.08% | 96.87%   |
+| **Notumor**    | 98.06%    | 100.00%| 99.02%   |
+| **Pituitary**  | 98.66%    | 98.33% | 98.50%   |
 
 ---
 
