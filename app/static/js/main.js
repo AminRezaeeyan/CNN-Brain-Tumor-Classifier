@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const fileUpload = document.querySelector('.file-upload');
     const errorMessage = document.querySelector('.error-message');
     const uploadForm = document.getElementById('upload-form');
+    
+    let hasUploaded = false;
 
     function showError() {
         fileUpload.classList.add('error');
@@ -30,24 +32,25 @@ document.addEventListener('DOMContentLoaded', function () {
                     imagePreview.src = e.target.result;
                     previewContainer.style.display = 'block';
                     fileLabel.textContent = file.name;
+                    hasUploaded = true;
                     hideError();
                 };
                 reader.readAsDataURL(file);
             } else {
+                hasUploaded = false;
                 showError();
             }
         });
 
         uploadForm.addEventListener('submit', function(e) {
-            if (fileInput.files.length === 0 || fileInput.files[0].size === 0) {
-                e.preventDefault();
+            e.preventDefault();
+            if (!fileInput.files.length || (fileInput.files[0] && fileInput.files[0].size === 0)) {
                 showError();
             } else {
                 hideError();
             }
         });
 
-        // Drag and drop functionality
         const dropZone = document.querySelector('.file-upload');
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, preventDefaults, false);
