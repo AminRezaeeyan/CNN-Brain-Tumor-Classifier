@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="upload-container neumorphic">
+    <div class="upload-header">
+        <h2>Upload Brain MRI Scan</h2>
+        <p>Upload your brain MRI scan for instant analysis. Our AI model will help identify and classify any potential brain tumors, providing quick and accurate results to support medical diagnosis.</p>
+    </div>
+    <form id="upload-form" action="{{ url_for('predict') }}" method="post" enctype="multipart/form-data">
+        <div class="file-upload neumorphic">
+            <input type="file" name="file" id="file" accept=".jpg,.jpeg,.png,.bmp" required>
+            <label for="file">
+                <span class="file-icon">📁</span>
+                <span class="file-text">Choose a file or drag it here</span>
+            </label>
+            <div class="error-message">Please upload an image before analyzing</div>
+            <div class="file-info">
+                <p>Accepted formats: JPG, PNG, BMP</p>
+                <p>Minimum size: 224x224 pixels</p>
+                <p>Maximum size: 4096x4096 pixels</p>
+                <p>Images will be automatically resized to 224x224 pixels</p>
+            </div>
+        </div>
+        <div id="preview-container" class="preview-container" style="display: none;">
+            <img id="image-preview" src="" alt="Preview">
+        </div>
+        <button type="submit" class="analyze-btn neumorphic">
+            <span class="btn-icon">🔍</span>
+            <span class="btn-text">Analyze Image</span>
+        </button>
+    </form>
+</div>
+{% endblock %}
