@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const fileUpload = document.querySelector('.file-upload');
     const errorMessage = document.querySelector('.error-message');
     const uploadForm = document.getElementById('upload-form');
+    const analyzeBtn = document.querySelector('.analyze-btn');
     
     let hasUploaded = false;
 
@@ -21,6 +22,30 @@ document.addEventListener('DOMContentLoaded', function () {
         fileUpload.classList.remove('error');
         fileLabel.classList.remove('error');
         errorMessage.classList.remove('show');
+    }
+
+    function showLoading() {
+        // Create loading container if it doesn't exist
+        let loadingContainer = document.getElementById('loading-container');
+        if (!loadingContainer) {
+            loadingContainer = document.createElement('div');
+            loadingContainer.id = 'loading-container';
+            loadingContainer.innerHTML = `
+                <div class="loading-spinner"></div>
+                <p class="loading-text">Analyzing MRI scan...</p>
+            `;
+            document.body.appendChild(loadingContainer);
+        }
+        loadingContainer.style.display = 'flex';
+        analyzeBtn.disabled = true;
+    }
+
+    function hideLoading() {
+        const loadingContainer = document.getElementById('loading-container');
+        if (loadingContainer) {
+            loadingContainer.style.display = 'none';
+        }
+        analyzeBtn.disabled = false;
     }
 
     if (fileInput) {
@@ -46,9 +71,31 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
             if (!fileInput.files.length || (fileInput.files[0] && fileInput.files[0].size === 0)) {
                 showError();
-            } else {
-                hideError();
+                return;
             }
+
+            const formData = new FormData(uploadForm);
+            showLoading();
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                // Store the results in sessionStorage
+                sessionStorage.setItem('predictionResults', JSON.stringify(data));
+                // Redirect to result page
+                window.location.href = '/result';
+            })
+            .catch(error => {
+                hideLoading();
+                errorMessage.textContent = error.message;
+                showError();
+            });
         });
 
         const dropZone = document.querySelector('.file-upload');
