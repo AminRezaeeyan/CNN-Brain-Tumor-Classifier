@@ -10,9 +10,10 @@ document.addEventListener('DOMContentLoaded', function () {
     
     let hasUploaded = false;
 
-    function showError() {
+    function showError(message) {
         fileUpload.classList.add('error');
         fileLabel.classList.add('error');
+        errorMessage.textContent = message;
         errorMessage.classList.add('show');
         fileLabel.textContent = 'Choose a file or drag it here';
         previewContainer.style.display = 'none';
@@ -22,6 +23,24 @@ document.addEventListener('DOMContentLoaded', function () {
         fileUpload.classList.remove('error');
         fileLabel.classList.remove('error');
         errorMessage.classList.remove('show');
+    }
+
+    function updateImageDimensions(width, height) {
+        const dimensionsElement = document.querySelector('.image-dimensions');
+        dimensionsElement.textContent = `Dimensions: ${width} × ${height} pixels`;
+    }
+
+    function validateImage(width, height) {
+        const aspectRatio = Math.max(width, height) / Math.min(width, height);
+        
+        if (width < 224 || height < 224) {
+            return 'Image dimensions must be at least 224x224 pixels';
+        } else if (width > 4096 || height > 4096) {
+            return 'Image dimensions cannot exceed 4096x4096 pixels';
+        } else if (aspectRatio > 1.5) {
+            return 'Image aspect ratio should be close to 1:1 (square)';
+        }
+        return null;
     }
 
     function showLoading() {
@@ -54,48 +73,78 @@ document.addEventListener('DOMContentLoaded', function () {
             if (file && file.size > 0) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
-                    previewContainer.style.display = 'block';
-                    fileLabel.textContent = file.name;
-                    hasUploaded = true;
-                    hideError();
+                    const img = new Image();
+                    img.onload = function() {
+                        const width = img.width;
+                        const height = img.height;
+                        const error = validateImage(width, height);
+                        
+                        if (error) {
+                            showError(error);
+                            return;
+                        }
+                        
+                        imagePreview.src = e.target.result;
+                        previewContainer.style.display = 'block';
+                        fileLabel.textContent = file.name;
+                        updateImageDimensions(width, height);
+                        hasUploaded = true;
+                        hideError();
+                    };
+                    img.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
             } else {
                 hasUploaded = false;
-                showError();
+                showError('Please select a file to upload');
             }
         });
 
         uploadForm.addEventListener('submit', function(e) {
             e.preventDefault();
             if (!fileInput.files.length || (fileInput.files[0] && fileInput.files[0].size === 0)) {
-                showError();
+                showError('Please select a file to upload');
                 return;
             }
 
-            const formData = new FormData(uploadForm);
-            showLoading();
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const width = img.width;
+                    const height = img.height;
+                    const error = validateImage(width, height);
+                    
+                    if (error) {
+                        showError(error);
+                        return;
+                    }
 
-            fetch('/predict', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    throw new Error(data.error);
-                }
-                // Store the results in sessionStorage
-                sessionStorage.setItem('predictionResults', JSON.stringify(data));
-                // Redirect to result page
-                window.location.href = '/result';
-            })
-            .catch(error => {
-                hideLoading();
-                errorMessage.textContent = error.message;
-                showError();
-            });
+                    const formData = new FormData(uploadForm);
+                    showLoading();
+
+                    fetch('/predict', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            throw new Error(data.error);
+                        }
+                        sessionStorage.setItem('predictionResults', JSON.stringify(data));
+                        window.location.href = '/result';
+                    })
+                    .catch(error => {
+                        hideLoading();
+                        showError(error.message);
+                    });
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
         });
 
         const dropZone = document.querySelector('.file-upload');
