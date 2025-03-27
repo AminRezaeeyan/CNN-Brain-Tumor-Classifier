@@ -23,9 +23,11 @@ def allowed_file(filename):
 
 def preprocess_image(image_path):
     img = Image.open(image_path)
+    # Convert image to RGB mode if it's not already (handles PNG with transparency and BMP)
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
     img = img.resize((224, 224))  # Adjust size according to your model's input size
     img_array = np.array(img)
-    # img_array = img_array / 255.0
     img_array = np.expand_dims(img_array, axis=0)
     return img_array
 
