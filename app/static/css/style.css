@@ -175,7 +175,7 @@ body {
     padding: 3rem;
     background: var(--primary-color);
     border-radius: 20px;
-    box-shadow: var(--neumorphic-shadow);
+    box-shadow: var(--inner-shadow);
     position: relative;
 }
 
