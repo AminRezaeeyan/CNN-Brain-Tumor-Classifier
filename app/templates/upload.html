@@ -7,6 +7,24 @@
         <p>Upload your brain MRI scan for instant analysis. Our AI model will help identify and classify any potential brain tumors, providing quick and accurate results to support medical diagnosis.</p>
     </div>
     <form id="upload-form" action="{{ url_for('predict') }}" method="post" enctype="multipart/form-data">
+        <div class="sample-images-section">
+            <h3>📸 Sample MRI Scans</h3>
+            <p>Here are examples of properly formatted MRI scans from different axes:</p>
+            <div class="sample-images-grid">
+                <div class="sample-image">
+                    <img src="{{ url_for('static', filename='images/axial-sample.jpg') }}" alt="Sample MRI Scan 1">
+                    <span>Axial View</span>
+                </div>
+                <div class="sample-image">
+                    <img src="{{ url_for('static', filename='images/sagittal-sample.jpg') }}" alt="Sample MRI Scan 2">
+                    <span>Sagittal View</span>
+                </div>
+                <div class="sample-image">
+                    <img src="{{ url_for('static', filename='images/coronal-sample.jpg') }}" alt="Sample MRI Scan 3">
+                    <span>Coronal View</span>
+                </div>
+            </div>
+        </div>
         <div class="upload-section">
             <div class="file-upload neumorphic">
                 <input type="file" name="file" id="file" accept=".jpg,.jpeg,.png,.bmp">
