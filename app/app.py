@@ -82,11 +82,29 @@ def predict():
             # Sort predictions by probability in descending order
             sorted_predictions = dict(sorted(predictions_dict.items(), key=lambda x: x[1], reverse=True))
             
+            # Calculate aspect ratio
+            width, height = Image.open(filepath).size
+            aspect_ratio = max(width, height) / min(width, height)
+            aspect_ratio_status = "Optimal" if aspect_ratio <= 1.5 else "Acceptable" if aspect_ratio <= 2.0 else "Not optimal"
+            
+            # Get additional image details
+            img = Image.open(filepath)
+            file_size = f"{os.path.getsize(filepath) / 1024:.1f} KB"
+            file_format = img.format.upper()
+            color_mode = img.mode
+            
             results = {
                 'predictions': sorted_predictions,
                 'image_path': '/static/uploads/' + file.filename,
                 'predicted_class': predicted_class,
-                'confidence': confidence
+                'confidence': confidence,
+                'original_width': width,
+                'original_height': height,
+                'aspect_ratio': aspect_ratio,
+                'aspect_ratio_status': aspect_ratio_status,
+                'file_size': file_size,
+                'file_format': file_format,
+                'color_mode': color_mode
             }
             
             # Store results in session

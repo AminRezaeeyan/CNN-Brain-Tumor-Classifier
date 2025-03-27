@@ -20,31 +20,45 @@
             </div>
             <div class="image-details">
                 <div class="detail-item">
-                    <span class="detail-icon">📊</span>
+                    <span class="detail-icon">📐</span>
                     <div class="detail-content">
-                        <h4>Image Analysis</h4>
-                        <p>MRI scan processed at 224x224 resolution for optimal analysis</p>
+                        <h4>Image Dimensions</h4>
+                        <p>Original size: {{ results.original_width }} × {{ results.original_height }} pixels</p>
                     </div>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-icon">🔍</span>
+                    <span class="detail-icon">⚖️</span>
                     <div class="detail-content">
-                        <h4>Scan Quality</h4>
-                        <p>High-resolution T1-weighted MRI with clear tissue contrast</p>
+                        <h4>Aspect Ratio</h4>
+                        <p>{{ "%.2f"|format(results.aspect_ratio) }}:1 ({{ results.aspect_ratio_status }})</p>
                     </div>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-icon">⚡</span>
+                    <span class="detail-icon">🔄</span>
                     <div class="detail-content">
-                        <h4>Processing Time</h4>
-                        <p>Real-time analysis completed in milliseconds</p>
+                        <h4>Processing</h4>
+                        <p>Resized to 224×224 pixels for model input</p>
                     </div>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-icon">📱</span>
+                    <span class="detail-icon">📁</span>
                     <div class="detail-content">
-                        <h4>Device Compatibility</h4>
-                        <p>Optimized for viewing on all devices</p>
+                        <h4>File Format</h4>
+                        <p>{{ results.file_format }}</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-icon">💾</span>
+                    <div class="detail-content">
+                        <h4>File Size</h4>
+                        <p>{{ results.file_size }}</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-icon">🎨</span>
+                    <div class="detail-content">
+                        <h4>Color Mode</h4>
+                        <p>{{ results.color_mode }}</p>
                     </div>
                 </div>
             </div>
