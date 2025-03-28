@@ -45,7 +45,7 @@ notebooks/
 images/
 app/static/uploads/*
 !app/static/uploads/.gitkeep
-models/
+models/*.zip
 
 # Additional exclusions
 README.md
