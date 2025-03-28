@@ -1,8 +1,4 @@
-tensorflow>=2.15.0
-pandas>=2.0.0
-numpy>=1.26.0
-matplotlib>=3.8.0
-seaborn>=0.13.0
-scikit-learn>=1.3.0
-visualkeras>=0.0.2
-pillow>=10.0.0
+flask==3.1.0
+tensorflow==2.18.1
+numpy==1.26.4
+pillow==10.0.0

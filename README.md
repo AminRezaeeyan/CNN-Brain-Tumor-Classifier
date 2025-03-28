@@ -1,68 +1,180 @@
-# 🧠 NeuroScan - Brain Tumor Classifier (98.32% accuracy)
+# 🧠 NeuroScan - Brain Tumor Classifier 
 
-&#x20; &#x20;
+![Accuracy](https://img.shields.io/badge/accuracy-98.32%25-brightgreen)
+![PyPI - Python Version](https://img.shields.io/badge/python-3.9%2B-blue?logo=python)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.18.1-orange?logo=tensorflow)
+![Keras](https://img.shields.io/badge/Keras-3.0-red?logo=keras)
+![Flask](https://img.shields.io/badge/Flask-3.0-lightgrey?logo=flask)
+![Docker](https://img.shields.io/badge/Docker-ready-blue?logo=docker)
+![License](https://img.shields.io/badge/license-MIT-green)
+![GitHub last commit](https://img.shields.io/github/last-commit/AminRezaeeyan/NeuroScan?color=blue&logo=github)
 
-A powerful Convolutional Neural Network (CNN) model designed to classify brain tumors into four categories: **glioma, meningioma, notumor, and pituitary**. This model achieves **state-of-the-art performance** with an impressive **98.32% accuracy** on the test set. Built with **TensorFlow/Keras**, it leverages **VGG-inspired architecture, real-time data augmentation, and advanced training strategies** to ensure robustness and reliability.
+<details>
+<summary><strong>📌 Table of Contents</strong></summary>
 
-1. **Glioma**  
-   Gliomas are tumors originating from glial cells, the supportive cells around neurons in the brain. They range from low-grade (slow-growing) to high-grade (malignant, e.g., glioblastoma) and are the most common primary brain tumors. On MRI, they often appear irregular with varying contrast, influenced by grade and surrounding edema. Accurate detection is vital due to differing treatment needs.
+- [Model Overview](#-model-overview)
+- [Key Features](#-key-features)
+- [Web Interface](#-web-interface)
+- [Installation](#-installation)
+  - [Manual Setup](#manual-installation)
+  - [Docker Setup](#docker-installation)
+- [Usage](#-usage)
+- [Performance Metrics](#-performance-metrics)
+- [Future Work](#-future-work)
+- [Contributing](#-contributions)
+- [License](#-license)
+- [Acknowledgments](#-acknowledgments)
 
-2. **Meningioma**  
-   Meningiomas arise from the meninges, the protective layers covering the brain and spinal cord. Typically benign and slow-growing, some can become malignant or symptomatic due to pressure on brain structures. In MRI scans, they appear as well-defined, round masses with uniform contrast enhancement, aiding their identification for surgical or monitoring decisions.
-
-3. **Pituitary**  
-   Pituitary tumors develop in the pituitary gland, which regulates hormones. Usually benign (e.g., pituitary adenomas), they can disrupt hormonal balance or affect vision by pressing on optic nerves. On MRI, they are located near the sella turcica and show distinct enhancement, making classification key for managing endocrine symptoms.
-
-4. **No-tumor**  
-   This category includes MRI scans with no tumor or abnormal growth, serving as the control group. These images depict normal brain anatomy or minor non-tumor conditions (e.g., cysts). They lack the irregular masses or distortions seen in tumor cases, ensuring the CNN can differentiate healthy from pathological scans effectively.
-
-
-## Why It Matters
-In the realm of medical diagnostics, accuracy and reliability can mean the difference between life and death. The CNN Brain Tumor Classifier rises to this challenge, offering a dependable, automated solution that supports radiologists and clinicians. Extensive experimentation with alternative architectures confirmed this design as the optimal choice, refined through data augmentation and strategic training to meet the stringent demands of brain tumor classification.
+</details>
 
 ---
 
-## 📸 Model Overview
+## 🧩 Model Overview
 
-### Model Architecture
-![Architecture of model](https://github.com/AminRezaeeyan/CNN-Brain-Tumor-Classifier/blob/main/images/architecture1.svg)
-### Learning Curve
-![Learning Curve](https://github.com/AminRezaeeyan/CNN-Brain-Tumor-Classifier/blob/main/images/learning_curve.png)
-### Dataset Samples
-![Dataset Samples](https://github.com/AminRezaeeyan/CNN-Brain-Tumor-Classifier/blob/main/images/samples.png)
+A powerful CNN model that classifies brain tumors into four categories with **98.32% accuracy**:
+
+1. **Glioma** - Irregular tumors originating from glial cells  
+2. **Meningioma** - Well-defined tumors of the meninges  
+3. **Pituitary** - Hormone-affecting glandular tumors  
+4. **No-tumor** - Healthy brain scans
+
+<div align="center">
+  <img src="https://github.com/AminRezaeeyan/NeuroScan/blob/main/images/samples.png" width="100%">
+</div>
 
 ---
 
 ## 🚀 Key Features
 
-- **High Accuracy:** 98.32% test accuracy with strong generalization.
-- **Robust Metrics:** High precision, recall, and F2-score, ensuring reliability for medical applications.
-- **Optimized CNN Architecture:** Inspired by VGG, utilizing small 3x3 kernels for efficiency.
-- **Advanced Training Strategies:** Early stopping, model checkpointing, and dynamic learning rate scheduling.
-- **Data Augmentation:** Real-time transformations (rotations, flips) improve generalization.
-- **Pre-trained Model Available:** Download `best_model.keras` from the `models/` folder.
+- **98.32% Test Accuracy** - State-of-the-art performance
+- **VGG-Inspired Architecture** - Optimized 3x3 kernel design
+- **Advanced Training**:
+  - Early stopping & model checkpointing
+  - Dynamic learning rate scheduling
+  - Real-time data augmentation (rotations/flips)
+- **Production-Ready**:
+  - Flask web interface
+  - Docker container support
+  - REST API endpoints
 
-Iterative testing of alternative architectures—including batch normalization, 1x1 kernels from Inception, large kernels from MobileNet, and separable convolutions—confirmed that the chosen design, enhanced by small kernels, dropout regularization, and data augmentation, outperformed other approaches. This careful refinement, paired with on-the-fly augmentation and strategic callbacks, tailored the classifier to the demands of brain tumor diagnosis. Ultimately, the brain tumor classifier delivers a powerful, dependable solution for early detection, poised to support improved patient outcomes in clinical settings.
+<div align="center">
+  <img src="https://github.com/AminRezaeeyan/CNN-Brain-Tumor-Classifier/blob/main/images/architecture1.svg" width="100%">
+  <img src="https://github.com/AminRezaeeyan/CNN-Brain-Tumor-Classifier/blob/main/images/learning_curve.png" width="100%">
+</div>
 
-### Training Strategies
+---
 
-- **On-the-fly Augmentation:** Real-time transformations, such as rotations and flips, enhance model robustness without requiring extra storage.
+## 🌐 Web Interface
 
-- **Early Stopping:** Prevents overfitting by halting training when validation performance ceases to improve.
+<div align="center" style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px;">
+  <img src="https://github.com/AminRezaeeyan/NeuroScan/blob/UI/images/webui1.png" style="height: 350px; width: auto; object-fit: contain; flex: 1 1 auto; max-width: 30%; min-width: 250px;">
+  <img src="https://github.com/AminRezaeeyan/NeuroScan/blob/UI/images/webui2.png" style="height: 350px; width: auto; object-fit: contain; flex: 1 1 auto; max-width: 30%; min-width: 250px;">
+  <img src="https://github.com/AminRezaeeyan/NeuroScan/blob/UI/images/webui3.png" style="height: 350px; width: auto; object-fit: contain; flex: 1 1 auto; max-width: 30%; min-width: 250px;">
+</div>
 
-- **Learning Rate Scheduling:** Dynamically adjusts the learning rate to optimize convergence and avoid unnecessary fluctuations.
+**Features**:
+- Drag-and-drop MRI upload
+- Real-time visualization
+- Detailed confidence reports
+- Mobile-responsive design
 
-- **High Accuracy:** 98.17% test accuracy with strong generalization.
+---
 
-- **Robust Metrics:** High precision, recall, and F2-score, ensuring reliability for medical applications.
+## 📥 Installation
 
-- **Optimized CNN Architecture:** Inspired by VGG, utilizing small 3x3 kernels for efficiency.
+### Manual Installation
+``` bash
+# Clone repository
+git clone https://github.com/AminRezaeeyan/NeuroScan.git
+cd NeuroScan
 
-- **Advanced Training Strategies:** Early stopping, model checkpointing, and dynamic learning rate scheduling.
+# Install dependencies
+pip install -r requirements.txt
 
-- **Data Augmentation:** Real-time transformations (rotations, flips) improve generalization.
+# Run
+cd app
+flask run
+```
+### Docker Installation
+``` bash
+git clone https://github.com/AminRezaeeyan/NeuroScan.git
+cd NeuroScan
 
-- **Pre-trained Model Available:** Download `best_model.keras` from the `models/` folder.
+# Run container
+docker-compose up --build
+```
+
+---
+
+## 💻 Usage
+
+### Web Interface
+```python
+python app.py
+# or
+flask run
+```
+Access at: http://localhost:5000
+
+### Programmatic API
+
+The pre-trained model (`best_model.keras`) is available in the `models/` directory and can be integrated into your applications:
+
+```python
+from PIL import Image
+import numpy as np
+from tensorflow.keras.models import load_model
+
+# Load the pre-trained model
+model = load_model('models/best_model.keras')
+
+def predict_tumor(image_path):
+    """
+    Predicts tumor class from MRI image
+    Args:
+        image_path: Path to MRI image (JPEG/PNG)
+    Returns:
+        dict: {'class': 'glioma/meningioma/pituitary/notumor', 
+              'confidence': float,
+              'probabilities': dict}
+    """
+    # Load and preprocess image using Pillow
+    img = Image.open(image_path)
+    img = img.resize((224, 224))  # Resize to 224x224
+    img = img.convert('RGB')  # Ensure RGB format
+    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+    
+    # Make prediction
+    pred = model.predict(img_array)
+    classes = ['Glioma', 'Meningioma', 'No Tumor', 'Pituitary']
+    
+    return {
+        'class': classes[np.argmax(pred)],
+        'confidence': float(np.max(pred)),
+        'probabilities': {cls: float(prob) for cls, prob in zip(classes, pred[0])}
+    }
+
+# Example usage
+result = predict_tumor("path/to/mri.jpg")
+print(result)
+```
+
+Sample Output:
+```
+{
+    'class': 'Meningioma',
+    'confidence': 0.9743,
+    'probabilities': {
+        'Glioma': 0.0121,
+        'Meningioma': 0.9743,
+        'Pituitary': 0.0087,
+        'No Tumor': 0.0049
+    }
+}
+```
+
+⚠️ **Important Note:**  
+The model automatically normalizes input images in its first layer. Do not manually normalize (divide by 255) as this will cause incorrect predictions. Simply pass the raw image array (0-255 values).
 
 ---
 
@@ -70,82 +182,64 @@ Iterative testing of alternative architectures—including batch normalization, 
 
 | Metric        | Score  |
 | ------------- | ------ |
-| **Accuracy**  | 98.32% |
-| **Precision** | 98.32% |
-| **Recall**    | 98.32% |
-| **F1 Score**  | 98.32% |
-| **F2 Score**  | 98.32% |
+| Accuracy      | 98.32% |
+| Precision     | 98.32% |
+| Recall        | 98.32% |
+| F1 Score      | 98.32% |
 
-### Class-wise Performance
+<details>
+<summary><b>Class-wise Breakdown</b></summary>
 
 | Class          | Precision | Recall | F1 Score |
 | -------------- | --------- | ------ | -------- |
-| **Glioma**     | 98.99%    | 98.33% | 98.66%   |
-| **Meningioma** | 97.67%    | 96.08% | 96.87%   |
-| **Notumor**    | 98.06%    | 100.00%| 99.02%   |
-| **Pituitary**  | 98.66%    | 98.33% | 98.50%   |
+| Glioma         | 98.99%    | 98.33% | 98.66%   |
+| Meningioma     | 97.67%    | 96.08% | 96.87%   |
+| Pituitary      | 98.66%    | 98.33% | 98.50%   |
+| No-tumor       | 98.06%    | 100%   | 99.02%   |
 
----
-
-## 📂 Installation & Usage
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/AminRezaeeyan/CNN-Brain-Tumor-Classifier.git
-   cd CNN-Brain-Tumor-Classifier
-   ```
-2. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. **Load the Pre-trained Model**
-   ```python
-   from tensorflow.keras.models import load_model
-   ```
-
-import cv2 import numpy as np model = load_model('models/best_model.keras')
-4. **Run Inference**
-```python
-import cv2
-import numpy as np
-
-def preprocess_image(image_path):
- image = cv2.imread(image_path)
- image = cv2.resize(image, (224, 224))
- image = np.expand_dims(image, axis=0)
- return image
-
-image = preprocess_image('path/to/image.jpg')
-prediction = model.predict(image)
-print("Predicted Class:", np.argmax(prediction))
-````
+</details>
 
 ---
 
 ## 🔮 Future Work
 
-- **Developing a User Interface (UI) for easier interaction.**
-- **Exploring deployment options such as Flask or Streamlit for web-based access.**
+- **Continuous Accuracy Improvements**: Currently targeting 99%+ through:
+  - Advanced attention mechanisms
+  - Transformer-based hybrid architectures
+  - Improved data augmentation pipelines
+
+- **Tumor Segmentation**: Developing pixel-level detection
+
+- **Clinical Integration**:
+  - DICOM/PACS support
+  - HL7/FHIR compatibility
+  - Multi-modal analysis (MRI + CT)
+
+- **Edge Deployment**:
+  - ONNX runtime optimization
 
 ---
 
 ## 🤝 Contributions
 
-Contributions are welcome! If you’d like to improve the model, enhance the UI, or optimize performance, feel free to:
+### How to Contribute:
+###
+1. Fork the repository
+2. Create your feature branch (git checkout -b feature/AmazingFeature)
+3. Commit your changes (git commit -m 'Add some AmazingFeature')
+4. Push to the branch (git push origin feature/AmazingFeature)
+5. Open a Pull Request
+###
 
-1. **Fork the repo**
-2. **Create a new branch** (`feature-branch`)
-3. **Commit your changes**
-4. **Open a Pull Request**
+### Priority Areas:
+- Improved model interpretability
+- Additional medical imaging formats (DICOM, NIfTI)
+- Performance optimizations
+- UI/UX enhancements
+- Documentation improvements
 
 ---
 
 ## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🌟 Acknowledgments
-
-Special thanks to the contributors and the open-source community for their support in developing deep learning models for medical applications.
+Distributed under the MIT License. See `LICENSE` for more information.
