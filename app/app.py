@@ -4,32 +4,50 @@ import numpy as np
 from PIL import Image
 import os
 
+# Initialize Flask app
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-here'  # Required for session management
 
-# Load the model from the models directory
-model = tf.keras.models.load_model('../models/best_model.keras')
-
-# Class names for tumor types (in the order the model outputs them)
+# Model configuration
+MODEL_PATH = '../models/best_model.keras'
 CLASSES = ['Glioma', 'Meningioma', 'No Tumor', 'Pituitary']
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'bmp'}
 
+# Load the trained model
+model = tf.keras.models.load_model(MODEL_PATH)
+
+# Configure upload settings
 UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads')
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
-
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
+    """Check if the file extension is allowed."""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def preprocess_image(image_path):
+    """Preprocess the image for model input."""
     img = Image.open(image_path)
-    # Convert image to RGB mode if it's not already (handles PNG with transparency and BMP)
     if img.mode != 'RGB':
         img = img.convert('RGB')
-    img = img.resize((224, 224))  # Adjust size according to your model's input size
-    img_array = np.array(img)
-    img_array = np.expand_dims(img_array, axis=0)
-    return img_array
+    img = img.resize((224, 224))
+    return np.expand_dims(np.array(img), axis=0)
+
+def calculate_aspect_ratio(width, height):
+    """Calculate and determine aspect ratio status."""
+    ratio = max(width, height) / min(width, height)
+    status = "Optimal" if ratio <= 1.5 else "Acceptable" if ratio <= 2.0 else "Not optimal"
+    return ratio, status
+
+def get_image_details(filepath):
+    """Extract image details for display."""
+    img = Image.open(filepath)
+    return {
+        'width': img.width,
+        'height': img.height,
+        'format': img.format.upper(),
+        'mode': img.mode,
+        'size': f"{os.path.getsize(filepath) / 1024:.1f} KB"
+    }
 
 @app.route('/')
 def index():
@@ -41,7 +59,6 @@ def upload():
 
 @app.route('/result')
 def result():
-    # Get results from session
     results = session.get('prediction_results')
     if not results:
         return redirect(url_for('upload'))
@@ -56,64 +73,52 @@ def predict():
     if file.filename == '':
         return jsonify({'error': 'No file selected'}), 400
     
-    if file and allowed_file(file.filename):
-        try:
-            # Create uploads directory if it doesn't exist
-            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-            
-            # Save the file
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(filepath)
-            
-            # Preprocess and predict
-            processed_image = preprocess_image(filepath)
-            predictions = model.predict(processed_image, verbose=0)  # Added verbose=0 to reduce output
-            
-            # Get the predicted class index and probability
-            predicted_class_idx = np.argmax(predictions[0])
-            predicted_class = CLASSES[predicted_class_idx]
-            confidence = float(predictions[0][predicted_class_idx])
-            
-            # Create predictions dictionary with class names and probabilities
-            predictions_dict = {}
-            for i, class_name in enumerate(CLASSES):
-                predictions_dict[class_name] = float(predictions[0][i])
-            
-            # Sort predictions by probability in descending order
-            sorted_predictions = dict(sorted(predictions_dict.items(), key=lambda x: x[1], reverse=True))
-            
-            # Calculate aspect ratio
-            width, height = Image.open(filepath).size
-            aspect_ratio = max(width, height) / min(width, height)
-            aspect_ratio_status = "Optimal" if aspect_ratio <= 1.5 else "Acceptable" if aspect_ratio <= 2.0 else "Not optimal"
-            
-            # Get additional image details
-            img = Image.open(filepath)
-            file_size = f"{os.path.getsize(filepath) / 1024:.1f} KB"
-            file_format = img.format.upper()
-            color_mode = img.mode
-            
-            results = {
-                'predictions': sorted_predictions,
-                'image_path': '/static/uploads/' + file.filename,
-                'predicted_class': predicted_class,
-                'confidence': confidence,
-                'original_width': width,
-                'original_height': height,
-                'aspect_ratio': aspect_ratio,
-                'aspect_ratio_status': aspect_ratio_status,
-                'file_size': file_size,
-                'file_format': file_format,
-                'color_mode': color_mode
-            }
-            
-            # Store results in session
-            session['prediction_results'] = results
-            return jsonify(results)
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
+    if not allowed_file(file.filename):
+        return jsonify({'error': 'Invalid file type'}), 400
     
-    return jsonify({'error': 'Invalid file type'}), 400
+    try:
+        # Create uploads directory and save file
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(filepath)
+        
+        # Process image and get predictions
+        processed_image = preprocess_image(filepath)
+        predictions = model.predict(processed_image, verbose=0)
+        
+        # Get prediction details
+        predicted_class_idx = np.argmax(predictions[0])
+        predicted_class = CLASSES[predicted_class_idx]
+        confidence = float(predictions[0][predicted_class_idx])
+        
+        # Create sorted predictions dictionary
+        predictions_dict = {CLASSES[i]: float(predictions[0][i]) for i in range(len(CLASSES))}
+        sorted_predictions = dict(sorted(predictions_dict.items(), key=lambda x: x[1], reverse=True))
+        
+        # Get image details
+        img_details = get_image_details(filepath)
+        aspect_ratio, aspect_ratio_status = calculate_aspect_ratio(img_details['width'], img_details['height'])
+        
+        # Prepare results
+        results = {
+            'predictions': sorted_predictions,
+            'image_path': '/static/uploads/' + file.filename,
+            'predicted_class': predicted_class,
+            'confidence': confidence,
+            'original_width': img_details['width'],
+            'original_height': img_details['height'],
+            'aspect_ratio': aspect_ratio,
+            'aspect_ratio_status': aspect_ratio_status,
+            'file_size': img_details['size'],
+            'file_format': img_details['format'],
+            'color_mode': img_details['mode']
+        }
+        
+        session['prediction_results'] = results
+        return jsonify(results)
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True) 
