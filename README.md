@@ -67,9 +67,9 @@ A powerful CNN model that classifies brain tumors into four categories with **98
 ## 🌐 Web Interface
 
 <div align="center" style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px;">
-  <img src="https://github.com/AminRezaeeyan/NeuroScan/blob/UI/images/webui1.png" style="height: 350px; width: auto; object-fit: contain; flex: 1 1 auto; max-width: 30%; min-width: 250px;">
-  <img src="https://github.com/AminRezaeeyan/NeuroScan/blob/UI/images/webui2.png" style="height: 350px; width: auto; object-fit: contain; flex: 1 1 auto; max-width: 30%; min-width: 250px;">
-  <img src="https://github.com/AminRezaeeyan/NeuroScan/blob/UI/images/webui3.png" style="height: 350px; width: auto; object-fit: contain; flex: 1 1 auto; max-width: 30%; min-width: 250px;">
+  <img src="https://github.com/AminRezaeeyan/NeuroScan/blob/main/images/webui1.png" style="height: 350px; width: auto; object-fit: contain; flex: 1 1 auto; max-width: 30%; min-width: 250px;">
+  <img src="https://github.com/AminRezaeeyan/NeuroScan/blob/main/images/webui2.png" style="height: 350px; width: auto; object-fit: contain; flex: 1 1 auto; max-width: 30%; min-width: 250px;">
+  <img src="https://github.com/AminRezaeeyan/NeuroScan/blob/main/images/webui3.png" style="height: 350px; width: auto; object-fit: contain; flex: 1 1 auto; max-width: 30%; min-width: 250px;">
 </div>
 
 **Features**:
@@ -84,24 +84,34 @@ A powerful CNN model that classifies brain tumors into four categories with **98
 
 ### Manual Installation
 ``` bash
+# Clone repository 
+git clone https://github.com/AminRezaeeyan/NeuroScan.git
+cd NeuroScan
+
+# Create and activate virtual environment (recommended)
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# venv\Scripts\activate  # Windows
+
+# Install dependencies
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# Run development server
+flask run --host=0.0.0.0 --port=5000
+```
+### Docker Installation
+``` bash
 # Clone repository
 git clone https://github.com/AminRezaeeyan/NeuroScan.git
 cd NeuroScan
 
-# Install dependencies
-pip install -r requirements.txt
+# Build and run containers (detached mode)
+docker-compose up -d --build
 
-# Run
-cd app
-flask run
-```
-### Docker Installation
-``` bash
-git clone https://github.com/AminRezaeeyan/NeuroScan.git
-cd NeuroScan
+# View logs (optional)
+docker-compose logs -f
 
-# Run container
-docker-compose up --build
 ```
 
 ---
