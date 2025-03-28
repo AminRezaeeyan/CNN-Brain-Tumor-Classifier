@@ -9,7 +9,8 @@ app = Flask(__name__)
 app.secret_key = 'your-secret-key-here'  # Required for session management
 
 # Model configuration
-MODEL_PATH = '../models/best_model.keras'
+
+MODEL_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'models', 'best_model.keras')
 CLASSES = ['Glioma', 'Meningioma', 'No Tumor', 'Pituitary']
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'bmp'}
 
