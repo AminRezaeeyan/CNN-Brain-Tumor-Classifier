@@ -1,5 +1,6 @@
 # 🧠 NeuroScan - Brain Tumor Classifier 
 
+![Kaggle](https://img.shields.io/badge/Kaggle-Notebook-blue?logo=kaggle&link=https://www.kaggle.com/code/aminrezaeeyan/brain-tumor-classification-using-cnn-98-32)
 ![Accuracy](https://img.shields.io/badge/accuracy-98.32%25-brightgreen)
 ![PyPI - Python Version](https://img.shields.io/badge/python-3.9%2B-blue?logo=python)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.18.1-orange?logo=tensorflow)
@@ -117,14 +118,6 @@ docker-compose logs -f
 ---
 
 ## 💻 Usage
-
-### Web Interface
-```python
-python app.py
-# or
-flask run
-```
-Access at: http://localhost:5000
 
 ### Programmatic API
 
